@@ -61,13 +61,21 @@ class Game {
     constructor() {
         this.world = new World();
         this.bird = new Bird();
+        this.engine = new Engine();
     }
     run() {
+        console.log("Running!");
+        this.engine.show(this);
     }
 }
 /** Engine in order to show the view **/
 class Engine {
-    static show(game) {
+    //show the game
+    show(game) {
+        let canvas = document.getElementById('canvas');
+        let ctx = canvas.getContext('2d');
+        ctx.fillStyle = 'green';
+        ctx.fillRect(10, 10, 100, 100);
     }
 }
 /** randomizer **/
@@ -78,5 +86,4 @@ class RND {
         return Math.floor(Math.random() * (xmax - xmin)) + xmin;
     }
 }
-console.log("world", new World());
 //# sourceMappingURL=main.js.map

@@ -8,15 +8,11 @@ class World{
     static TUBE:number=1;
     world:number[][]=new Array();
 
-
-
     /** Generates a random world made of tubes **/
     constructor(){
        
-       
         let yMax:number= 6;
         let xMax:number=100;
-
 
         let maxTubeSize:number=3;
         let tubeDone:number = 1;
@@ -82,10 +78,15 @@ class Bird{
 class Game{
     world:World=new World();
     bird:Bird=new Bird();
+    engine:Engine = new Engine();
 
     run(){
+        console.log("Running!");
 
+        this.engine.show(this);
     }
+
+
 
 }
 
@@ -93,9 +94,13 @@ class Game{
 /** Engine in order to show the view **/
 class Engine{
 
+    //show the game
+    show(game:Game){
+        let canvas:any = document.getElementById('canvas');
+        let ctx:any = canvas.getContext('2d');
 
-    static show(game:Game){
-
+        ctx.fillStyle = 'green';
+        ctx.fillRect(10, 10, 100, 100);
     }
 }
 
@@ -111,4 +116,5 @@ class RND{
 
 } 
 
-console.log("world",new World());
+
+
