@@ -74,8 +74,27 @@ class Engine {
     show(game) {
         let canvas = document.getElementById('canvas');
         let ctx = canvas.getContext('2d');
+        for (let x = 0; x < 10; x++) {
+            for (let y = 0; y < 6; y++) {
+                let r = game.world.world[x][y];
+                if (r == World.TUBE) {
+                    this.showPipe(ctx, x, y);
+                    //console.log("tube",x,y);
+                }
+                else {
+                    this.showEmpy(ctx, x, y);
+                    //console.log("empy",x,y);
+                }
+            }
+        }
+    }
+    showPipe(ctx, x, y) {
         ctx.fillStyle = 'green';
-        ctx.fillRect(10, 10, 100, 100);
+        ctx.fillRect(x * 100, (6 - y) * 100, 100, 100);
+    }
+    showEmpy(ctx, x, y) {
+        ctx.fillStyle = 'grey';
+        ctx.fillRect(x * 100, (6 - y) * 100, 100, 100);
     }
 }
 /** randomizer **/
