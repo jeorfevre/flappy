@@ -1,6 +1,8 @@
 # flappy
 flappybird game 
 
+# version 0.0.3
+- show tile of colors using html canvas "FIXED"
 
 # version 0.0.2
 - world map random gen
@@ -10,7 +12,7 @@ flappybird game
 
 
 # todo
-- show tile of colors using html canvas
+
 - show tile of colors - moving
 - show bird
 - move bird up / down

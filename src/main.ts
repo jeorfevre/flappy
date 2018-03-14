@@ -98,10 +98,38 @@ class Engine{
     show(game:Game){
         let canvas:any = document.getElementById('canvas');
         let ctx:any = canvas.getContext('2d');
+        for(let x:number=0; x<10;x++){
+            for(let y:number=0; y<6; y++){
+                let r:number=game.world.world[x][y];
+               if(r==World.TUBE) {
+                   this.showPipe(ctx,x,y);
+                   //console.log("tube",x,y);
+               }
+               else{
+                     this.showEmpy(ctx,x,y);
+                    //console.log("empy",x,y);
+               }
+            }
 
-        ctx.fillStyle = 'green';
-        ctx.fillRect(10, 10, 100, 100);
+        }
     }
+
+    showPipe(ctx:any,x:number,y:number){
+       
+        ctx.fillStyle = 'green';
+        ctx.fillRect(x*100, (6-y)*100, 100, 100);
+    }
+
+   showEmpy(ctx:any,x:number,y:number){
+      
+        ctx.fillStyle = 'grey';
+        ctx.fillRect(x*100, (6-y)*100, 100, 100);
+    }
+
+
+
+
+
 }
 
 
