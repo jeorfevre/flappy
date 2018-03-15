@@ -1,3 +1,11 @@
+/** randomizer **/
+class RND {
+    static rndInt(min, max) {
+        let xmin = Math.ceil(min);
+        let xmax = Math.floor(max);
+        return Math.floor(Math.random() * (xmax - xmin)) + xmin;
+    }
+}
 /**
    generates a random world
 **/
@@ -5,8 +13,9 @@ class World {
     /** Generates a random world made of tubes **/
     constructor() {
         this.world = new Array();
+        console.log("World gen in progress");
         let yMax = 6;
-        let xMax = 100;
+        let xMax = 1000;
         let maxTubeSize = 3;
         let tubeDone = 1;
         //gen world column per column
@@ -17,7 +26,7 @@ class World {
                 //skip tub generation in case of 
             }
             else {
-                let x = RND.rndInt(0, yMax - 1);
+                let x = RND.rndInt(0, yMax);
                 if (x > 0) {
                     //top and bottom
                     if (x > 3) {
@@ -48,61 +57,77 @@ class World {
             //store the tube
             this.world.push(col);
         }
+        console.log("World gen done");
     }
 }
 World.TUBE = 1;
 class Bird {
     constructor() {
-        this.x = 100;
+        this.x = 0;
         this.y = 100;
     }
-}
-class Game {
-    constructor() {
-        this.world = new World();
-        this.bird = new Bird();
-        this.engine = new Engine();
-    }
-    run() {
-        console.log("Running!");
-        this.engine.show(this);
+    update() {
+        //update current x position
+        this.x += 2;
     }
 }
 /** Engine in order to show the view **/
 class Engine {
     //show the game
-    show(game) {
+    draw() {
         let canvas = document.getElementById('canvas');
         let ctx = canvas.getContext('2d');
-        for (let x = 0; x < 10; x++) {
+        let posX = 0;
+        let posY = 0;
+        let newBloc = 0;
+        if (Game.bird.x > 100) {
+            newBloc = Game.bird.x / 100;
+            newBloc = Math.trunc(newBloc);
+        }
+        let newMaxbloc = (Game.bird.x + 12 * 100) / 100;
+        newMaxbloc = Math.trunc(newMaxbloc);
+        let offsetX = Game.bird.x % 100; //offset in order to scroll
+        for (let x = newBloc; x < (newMaxbloc); x++) {
+            posY = 0;
             for (let y = 0; y < 6; y++) {
-                let r = game.world.world[x][y];
+                ////console.log("show",x,y);
+                let r = Game.world.world[x][y];
                 if (r == World.TUBE) {
-                    this.showPipe(ctx, x, y);
+                    this.showPipe(ctx, posX, posY, offsetX);
                     //console.log("tube",x,y);
                 }
                 else {
-                    this.showEmpy(ctx, x, y);
+                    this.showEmpy(ctx, posX, posY, offsetX);
                     //console.log("empy",x,y);
                 }
+                posY++;
             }
+            posX++;
         }
     }
-    showPipe(ctx, x, y) {
+    showPipe(ctx, x, y, offsetX) {
         ctx.fillStyle = 'green';
-        ctx.fillRect(x * 100, (6 - y) * 100, 100, 100);
+        ctx.fillRect(x * 100 - offsetX, (6 - y) * 100, 100, 100);
     }
-    showEmpy(ctx, x, y) {
+    showEmpy(ctx, x, y, offsetX) {
         ctx.fillStyle = 'grey';
-        ctx.fillRect(x * 100, (6 - y) * 100, 100, 100);
+        ctx.fillRect(x * 100 - offsetX, (6 - y) * 100, 100, 100);
     }
 }
-/** randomizer **/
-class RND {
-    static rndInt(min, max) {
-        let xmin = Math.ceil(min);
-        let xmax = Math.floor(max);
-        return Math.floor(Math.random() * (xmax - xmin)) + xmin;
+class Game {
+    constructor() {
+        this.run = () => {
+            this.update();
+            Game.engine.draw();
+            requestAnimationFrame(this.run);
+        };
+    }
+    //update position of objects
+    update() {
+        Game.bird.update();
     }
 }
+Game.world = new World();
+Game.bird = new Bird();
+Game.engine = new Engine();
 //# sourceMappingURL=main.js.map
