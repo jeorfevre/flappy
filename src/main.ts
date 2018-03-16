@@ -1,6 +1,3 @@
-
-
-
 /** randomizer **/
 class RND{
     static rndInt(min: number, max:number) {
@@ -112,6 +109,8 @@ class Engine{
         let posX:number=0;
         let posY:number=0;
 
+
+        // DRAW BACKGROUND
         let newBloc:number =0;
         if(Game.bird.x>100){
             newBloc=Game.bird.x/100;
@@ -125,23 +124,20 @@ class Engine{
         for(let x:number= newBloc; x<(newMaxbloc);x++){
             posY=0;
             for(let y:number=0; y<6; y++){
-
-               ////console.log("show",x,y);
                let r:number= Game.world.world[x][y];
                if(r==World.TUBE) {
                    this.showPipe(ctx,posX,posY,offsetX);
-                   //console.log("tube",x,y);
                }
                else{
                      this.showEmpy(ctx,posX,posY,offsetX);
-                    //console.log("empy",x,y);
                }
                posY++;
             }
             posX++;
-
         }
 
+
+       //DRAW BIRD
        this.drawBird(ctx);
 
 
@@ -153,7 +149,7 @@ class Engine{
      }
 
     showPipe(ctx:any,x:number,y:number, offsetX:number){       
-        ctx.fillStyle = 'green';
+        ctx.fillStyle = 'blue';
         ctx.fillRect(x*100-offsetX, (6-y)*100, 100, 100);
     }
 
@@ -172,13 +168,15 @@ class Game{
     static engine:Engine = new Engine();
 
    constructor(){
+     
+     // boutons listeners
      document.onkeydown = function (e) {
         switch (e.key) {
             case 'ArrowUp':
                 Game.bird.y-=12;
                 break;
             case 'ArrowDown':
-                 Game.bird.y+=12  ;
+                 Game.bird.y+=12;
                 break;
             case 'ArrowLeft':
                 // left arrow
@@ -191,10 +189,7 @@ class Game{
   
 
 
-    run=()=>{
-
-
-       
+    run=()=>{       
         this.update();      
         Game.engine.draw();
         requestAnimationFrame(this.run);    

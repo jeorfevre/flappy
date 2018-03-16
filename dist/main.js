@@ -87,6 +87,7 @@ class Engine {
         let ctx = canvas.getContext('2d');
         let posX = 0;
         let posY = 0;
+        // DRAW BACKGROUND
         let newBloc = 0;
         if (Game.bird.x > 100) {
             newBloc = Game.bird.x / 100;
@@ -112,6 +113,7 @@ class Engine {
             }
             posX++;
         }
+        //DRAW BIRD
         this.drawBird(ctx);
     }
     drawBird(ctx) {
@@ -119,7 +121,7 @@ class Engine {
         ctx.fillRect(Game.bird.posScreenX, Game.bird.y, 50, 50);
     }
     showPipe(ctx, x, y, offsetX) {
-        ctx.fillStyle = 'green';
+        ctx.fillStyle = 'blue';
         ctx.fillRect(x * 100 - offsetX, (6 - y) * 100, 100, 100);
     }
     showEmpy(ctx, x, y, offsetX) {
