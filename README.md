@@ -1,6 +1,12 @@
-# flappy
 flappybird game 
 
+
+HOW TO INSTALL
+- download dist directory, and put main.hmtml into a navigator.
+
+
+
+VERSIONS
 
 # version 0.0.4
 - show tile of colors with scrolling
@@ -16,11 +22,11 @@ flappybird game
 
 
 # todo
-- show tile of colors - moving
+
 - show bird
 - move bird up / down
-- scrolling of tile
-- bird death upon collision
+
+- collision of bird
 - score
 - show png images
 - parallax background / frontground.... etc

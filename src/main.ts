@@ -27,16 +27,20 @@ class World{
         let maxTubeSize:number=3;
         let tubeDone:number = 1;
 
+        //insert 3 empty columns
+        for(let i:number= 0; i<3;i++){
+           let col:number[]=[0,0,0,0,0,0];
+           this.world.push(col);
+        }
+
         //gen world column per column
         for( let i:number = 0; i<xMax; i++){
 
             let col:number[]=[0,0,0,0,0,0];
 
-            if(tubeDone >0 ){
-                tubeDone = 0;
-                //skip tub generation in case of 
-            }
-            else{
+           
+            if( tubeDone==0){
+            
                 let x:number=RND.rndInt(0,yMax);
                 if(x > 0){
                     //top and bottom
@@ -66,7 +70,14 @@ class World{
                     }
                 }
 
-                tubeDone=1;
+                tubeDone++;
+            }
+            else {
+              tubeDone++;
+
+            }
+            if(tubeDone == 3){
+              tubeDone=0;
             }
 
             //store the tube
@@ -81,8 +92,9 @@ class World{
 }
 
 class Bird{
-    x:number=0;
-    y:number=100;
+    x:number=200;
+    posScreenX:number=50;
+    y:number=300;
 
     update(){
         //update current x position
@@ -106,7 +118,7 @@ class Engine{
             newBloc=Math.trunc(newBloc);
         }
        
-        let newMaxbloc:number=(Game.bird.x+12*100)/100;
+        let newMaxbloc:number=(Game.bird.x-80+12*100)/100;
         newMaxbloc=Math.trunc(newMaxbloc);
         let offsetX:number = Game.bird.x%100;     //offset in order to scroll
         
@@ -129,7 +141,16 @@ class Engine{
             posX++;
 
         }
+
+       this.drawBird(ctx);
+
+
     }
+
+     drawBird(ctx:any){
+         ctx.fillStyle = 'red';
+         ctx.fillRect(Game.bird.posScreenX, Game.bird.y, 50, 50);
+     }
 
     showPipe(ctx:any,x:number,y:number, offsetX:number){       
         ctx.fillStyle = 'green';
@@ -150,8 +171,29 @@ class Game{
     static bird:Bird=new Bird();
     static engine:Engine = new Engine();
 
+   constructor(){
+     document.onkeydown = function (e) {
+        switch (e.key) {
+            case 'ArrowUp':
+                Game.bird.y-=12;
+                break;
+            case 'ArrowDown':
+                 Game.bird.y+=12  ;
+                break;
+            case 'ArrowLeft':
+                // left arrow
+                break;
+            case 'ArrowRight':
+                // right arrow
+        }
+    };
+  }
+  
+
 
     run=()=>{
+
+
        
         this.update();      
         Game.engine.draw();

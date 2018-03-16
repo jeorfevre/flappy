@@ -18,14 +18,15 @@ class World {
         let xMax = 1000;
         let maxTubeSize = 3;
         let tubeDone = 1;
+        //insert 3 empty columns
+        for (let i = 0; i < 3; i++) {
+            let col = [0, 0, 0, 0, 0, 0];
+            this.world.push(col);
+        }
         //gen world column per column
         for (let i = 0; i < xMax; i++) {
             let col = [0, 0, 0, 0, 0, 0];
-            if (tubeDone > 0) {
-                tubeDone = 0;
-                //skip tub generation in case of 
-            }
-            else {
+            if (tubeDone == 0) {
                 let x = RND.rndInt(0, yMax);
                 if (x > 0) {
                     //top and bottom
@@ -52,7 +53,13 @@ class World {
                         }
                     }
                 }
-                tubeDone = 1;
+                tubeDone++;
+            }
+            else {
+                tubeDone++;
+            }
+            if (tubeDone == 3) {
+                tubeDone = 0;
             }
             //store the tube
             this.world.push(col);
@@ -63,8 +70,9 @@ class World {
 World.TUBE = 1;
 class Bird {
     constructor() {
-        this.x = 0;
-        this.y = 100;
+        this.x = 200;
+        this.posScreenX = 50;
+        this.y = 300;
     }
     update() {
         //update current x position
@@ -84,7 +92,7 @@ class Engine {
             newBloc = Game.bird.x / 100;
             newBloc = Math.trunc(newBloc);
         }
-        let newMaxbloc = (Game.bird.x + 12 * 100) / 100;
+        let newMaxbloc = (Game.bird.x - 80 + 12 * 100) / 100;
         newMaxbloc = Math.trunc(newMaxbloc);
         let offsetX = Game.bird.x % 100; //offset in order to scroll
         for (let x = newBloc; x < (newMaxbloc); x++) {
@@ -104,6 +112,11 @@ class Engine {
             }
             posX++;
         }
+        this.drawBird(ctx);
+    }
+    drawBird(ctx) {
+        ctx.fillStyle = 'red';
+        ctx.fillRect(Game.bird.posScreenX, Game.bird.y, 50, 50);
     }
     showPipe(ctx, x, y, offsetX) {
         ctx.fillStyle = 'green';
@@ -120,6 +133,20 @@ class Game {
             this.update();
             Game.engine.draw();
             requestAnimationFrame(this.run);
+        };
+        document.onkeydown = function (e) {
+            switch (e.key) {
+                case 'ArrowUp':
+                    Game.bird.y -= 12;
+                    break;
+                case 'ArrowDown':
+                    Game.bird.y += 12;
+                    break;
+                case 'ArrowLeft':
+                    // left arrow
+                    break;
+                case 'ArrowRight':
+            }
         };
     }
     //update position of objects
